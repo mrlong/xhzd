@@ -1,6 +1,6 @@
 object Form1: TForm1
   Left = 227
-  Top = 215
+  Top = 174
   Width = 1245
   Height = 728
   Caption = 'Form1'
@@ -17,7 +17,7 @@ object Form1: TForm1
     Left = 0
     Top = 41
     Width = 545
-    Height = 423
+    Height = 416
     DataSource = ds1
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
@@ -106,7 +106,7 @@ object Form1: TForm1
       Left = 872
       Top = 16
       Width = 345
-      Height = 193
+      Height = 113
       Lines.Strings = (
         'mmo2')
       ScrollBars = ssBoth
@@ -136,6 +136,15 @@ object Form1: TForm1
       Caption = #25104#35821#20889#20837#24211
       TabOrder = 7
       OnClick = btn2Click
+    end
+    object btn3: TBitBtn
+      Left = 880
+      Top = 176
+      Width = 209
+      Height = 33
+      Caption = #35789#20856#20889#20837#24211
+      TabOrder = 8
+      OnClick = btn3Click
     end
   end
   object dbgrd2: TDBGrid
@@ -178,11 +187,24 @@ object Form1: TForm1
     DataSource = ds2
     TabOrder = 6
   end
+  object dbgrd3: TDBGrid
+    Left = 176
+    Top = 128
+    Width = 320
+    Height = 265
+    DataSource = ds3
+    TabOrder = 7
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+  end
   object con1: TADOConnection
     Connected = True
     ConnectionString = 
-      'Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\code\xhzd\'#26032#21326#23383#20856'.m' +
-      'db;Persist Security Info=False'
+      'Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\code\xhzd\trunk\' +
+      #26032#21326#23383#20856'.mdb;Persist Security Info=False'
     LoginPrompt = False
     Mode = cmShareDenyNone
     Provider = 'Microsoft.Jet.OLEDB.4.0'
@@ -213,8 +235,8 @@ object Form1: TForm1
   object con2: TADOConnection
     Connected = True
     ConnectionString = 
-      'Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\code\xhzd\cycd.m' +
-      'db;Persist Security Info=False'
+      'Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\code\xhzd\trunk\' +
+      'cycd.mdb;Persist Security Info=False'
     LoginPrompt = False
     Mode = cmShareDenyNone
     Provider = 'Microsoft.Jet.OLEDB.4.0'
@@ -224,6 +246,30 @@ object Form1: TForm1
   object ds2: TDataSource
     DataSet = tbl2
     Left = 776
+    Top = 8
+  end
+  object con3: TADOConnection
+    Connected = True
+    ConnectionString = 
+      'Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\code\xhzd\trunk\' +
+      'cnword.mdb;Persist Security Info=False'
+    LoginPrompt = False
+    Mode = cmShareDenyNone
+    Provider = 'Microsoft.Jet.OLEDB.4.0'
+    Left = 912
+    Top = 8
+  end
+  object tbl3: TADOTable
+    Active = True
+    Connection = con3
+    CursorType = ctStatic
+    TableName = 'cnword'
+    Left = 952
+    Top = 8
+  end
+  object ds3: TDataSource
+    DataSet = tbl3
+    Left = 992
     Top = 8
   end
 end

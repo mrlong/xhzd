@@ -9,7 +9,7 @@ uses
   //MongoDB,
   //MongoBson,
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, Grids, DBGrids, DB, ADODB, StdCtrls, DBCtrls;
+  Dialogs, ExtCtrls, Grids, DBGrids, DB, ADODB, StdCtrls, DBCtrls, Buttons;
 
 type
   TForm1 = class(TForm)
@@ -36,9 +36,15 @@ type
     dbmmoderivation: TDBMemo;
     dbmmosamples: TDBMemo;
     btn2: TButton;
+    con3: TADOConnection;
+    tbl3: TADOTable;
+    ds3: TDataSource;
+    dbgrd3: TDBGrid;
+    btn3: TBitBtn;
     //procedure btn1Click(Sender: TObject);
     procedure btn2Click(Sender: TObject);
     procedure btn1Click(Sender: TObject);
+    procedure btn3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -241,7 +247,7 @@ begin
 
 
       bson := TBSONDocument.Create;
-      bson.Values['cy'] := TBSONStringItem.Create(UTF8Encode(tbl2.fieldByName('name').AsString));
+      bson.Values['cy'] := TBSONStringItem.Create(UTF8Encode(Trim(tbl2.fieldByName('name').AsString)));
       bson.Values['pinyin'] := TBSONStringItem.Create(UTF8Encode(tbl2.fieldByname('spell').AsString));
       bson.Values['js'] := TBSONStringItem.Create(UTF8Encode(tbl2.fieldByname('content').AsString));
       bson.Values['cz'] := TBSONStringItem.Create(UTF8Encode(tbl2.fieldByname('derivation').AsString));
@@ -387,6 +393,109 @@ begin
   bson.Free;
   coll.Free;
   mongo.Free;
+end;
+
+procedure TForm1.btn3Click(Sender: TObject);
+var
+  bson              : TBSONDocument;
+  item              : TBSONArrayItem;
+  mongo             : TMongoConnection;
+  coll              : TMongoCollection;
+  mycount ,i   : Integer;
+  mystr,mystr2 : string;
+begin
+  {
+  mongo := TMongoConnection.Create('112.124.59.236');
+  mmo1.lines.add( booltostr( mongo.Connected, true ) );
+  mongo.GetDatabase( 'test' );
+  coll := mongo.GetCollection( 'addresses' );
+  cursor := coll.find( );
+
+  mmo1.lines.add( inttostr( cursor.Count ) );
+  for i := 0 to cursor.Count - 1 do
+    mmo1.lines.add( UTF8Decode(cursor.Result[i].ToString) );//print as JSON
+
+  cursor.Free;
+  coll.Free;
+  mongo.Free;
+  }
+
+ { 【解释】：准备好了，以备急用，眼下暂存不用。
+   【出自】：清·吴趼人《糊涂世界》：“虽说备而不用，到得那时候，听凭兵丁造一句谣言，开上几排枪，那人可就死了不少。”
+   【示例】：凡是零星物件，本地买不出，一定要用，或是～的，也都齐全。
+    ◎清·颐琐《黄绣球》第十七回
+ }
+
+  mongo := TMongoConnection.Create('112.124.59.236');
+  //mongo := TMongoConnection.Create('112.124.59.236');
+  mmo1.lines.add( booltostr( mongo.Connected, true ) );
+  mongo.GetDatabase( 'xhzd' );
+  coll := mongo.GetCollection('hycds');
+
+
+  mycount := tbl3.RecordCount;
+
+    i :=0;
+    tbl3.First;
+
+    while not tbl3.Eof do
+    begin
+
+      i := i +1;
+
+
+      bson := TBSONDocument.Create;
+      bson.Values['hy'] := TBSONStringItem.Create(UTF8Encode(Trim(tbl3.fieldByName('words').AsString)));
+      bson.Values['js'] := TBSONStringItem.Create(UTF8Encode(tbl3.fieldByname('explain').AsString));
+
+
+      //mystr := tbl1.fieldByName('jijie').AsString;
+      //mystr := StringReplace(mystr,'<br>','\n',[rfReplaceAll]);
+      //bson.Values['jijie'] := TBSONStringItem.Create(UTF8Encode(mystr));
+
+
+      //mystr2 := tbl1.fieldByName('xiangjie').AsString;
+      //mystr2 := StringReplace(mystr2,'<br>','\n',[rfReplaceAll]);
+      //bson.Values['xiangjie'] := TBSONStringItem.Create(UTF8Encode(mystr2));
+
+      coll.save(bson);
+
+
+      {bb.AppendStr('py',);
+      bb.AppendStr('',);
+      bb.AppendStr('',);
+      bb.AppendStr('',);
+      }
+      {
+
+       }
+      
+      //bb.AppendStr('phone','龜');
+      //bb.appendCode('phone',('龜'));
+
+      //b := bb.finish();
+
+     // b := BSON(['name', '龜', 'age', 64,
+     //                  'address', '{',
+     //                     'street', '109 Vine Street',
+     //                     'city', 'New Haven',
+     //                     '}' ]);
+
+
+
+
+      lbl1.Caption := Format('%d/%d',[i,mycount]);
+      if chk1.Checked then Break;
+      Application.ProcessMessages;
+      tbl3.Next;
+    end;
+
+
+
+  bson.Free;
+  coll.Free;
+  mongo.Free;
+ 
 end;
 
 end.
